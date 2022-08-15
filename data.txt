@@ -1,0 +1,85 @@
+json_data = {
+    'operationName': 'JobsList',
+    'variables': {
+        'options': {
+            'filter': {
+                'query': '222283F114003',
+            },
+            'preset': 'AVAILABLE_TO_ACCEPT',
+            'grouping': {
+                'timezone': 'America/Toronto',
+            },
+            'paging': {
+                'offset': 0,
+                'limit': 500,
+            },
+        },
+        'withCustomFields': False,
+        'withProjectLabels': False,
+    },
+    'query': 'query JobsList($options: JobsListQueryInput!, $withCustomFields: Boolean!, $withProjectLabels: Boolean!) {\n  jobsList(options: $options) {\n    jobs {\n      ...JobGroupItemFragment\n      __typename\n    }\n    jobsCountByPreset {\n      ...JobsByPresetCountFragment\n      __typename\n    }\n    workNotInJob {\n      ...WorkNotInJobFragment\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment JobGroupItemFragment on Job {\n  completedDate\n  createdBy {\n    firstName\n    lastName\n    userUid\n    __typename\n  }\n  createdDate\n  dueDate\n  id\n  issues {\n    sourceIssuesCount\n    translationIssuesCount\n    __typename\n  }\n  jobActions {\n    actionType\n    id\n    primaryAction\n    __typename\n  }\n  jobName\n  description\n  jobNumber\n  jobStatus\n  priority\n  progress {\n    percentComplete\n    totalWordCount\n    __typename\n  }\n  accountName\n  accountUid\n  sourceLocaleId\n  sourceLocaleDescription\n  agencyUid\n  projectId\n  projectName\n  projectType\n  projectLabels @include(if: $withProjectLabels) {\n    id\n    labelName\n    __typename\n  }\n  qcs {\n    lastUpdated\n    value\n    __typename\n  }\n  referenceNumber\n  riskFactor {\n    value\n    __typename\n  }\n  summaryReport {\n    ...JobItemSummaryReportFragment\n    __typename\n  }\n  targetLocaleIds\n  translationJobUid\n  aggregatedPerLocale {\n    localeId\n    localeDescription\n    inProgressWordCount\n    toAssignWordCount\n    totalWordCount\n    translatedWordCount\n    issuesCount\n    __typename\n  }\n  aggregatedPerWorkflowStep {\n    stepData {\n      key\n      percentSaved\n      name\n      type\n      value\n      __typename\n    }\n    __typename\n  }\n  aggregatedPerWorkflow {\n    ...AggregatedWorkflow\n    __typename\n  }\n  authorizedBy {\n    firstName\n    lastName\n    userUid\n    authorizedDate\n    __typename\n  }\n  translatorTasks {\n    ...JobTranslatorTaskFragment\n    __typename\n  }\n  submittedTasks {\n    ...JobSubmittedTaskFragment\n    __typename\n  }\n  customFields @include(if: $withCustomFields) {\n    fieldType\n    fieldName\n    fieldUid\n    fieldValue\n    __typename\n  }\n  __typename\n}\n\nfragment JobItemSummaryReportFragment on JobSummaryReportItem {\n  stringCount\n  wordCount\n  workflowStepType\n  __typename\n}\n\nfragment AggregatedWorkflow on AggregatedPerWorkflow {\n  workflowUid\n  workflowName\n  targetLocales {\n    localeId\n    targetLocaleDescription\n    workflowSteps {\n      toAssignWordCount\n      translatedWordCount\n      totalWordCount\n      workflowStepType\n      workflowStepName\n      workflowStepOrder\n      workflowStepUid\n      workflowStepClass\n      contentAssignmentEnabled\n      workflowStepDueDate\n      contentAssignments {\n        firstName\n        lastName\n        email\n        wordCount\n        userUid\n        __typename\n      }\n      __typename\n    }\n    stepData {\n      key\n      value\n      type\n      name\n      percentSaved\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n\nfragment JobTranslatorTaskFragment on JobTranslatorTask {\n  claiming {\n    isClaimable\n    isUnclaimable\n    claimableWordCount\n    __typename\n  }\n  dueDate\n  gracefulWindow\n  isActionable\n  isContentUpdated\n  isDeclined\n  issues {\n    issuesCount\n    __typename\n  }\n  offlineWorkEnabled\n  originalLocaleId\n  precedingWorkflowStep {\n    precedingWorkflowStepUid\n    __typename\n  }\n  stringCount\n  targetLocaleId\n  targetLocaleDescription\n  wordCount\n  translatedWordCount\n  workflowStep {\n    workflowStepName\n    workflowStepType\n    workflowStepUid\n    __typename\n  }\n  upcomingTask {\n    precedingWorkflowStep {\n      precedingWorkflowStepUid\n      __typename\n    }\n    wordCount\n    stringCount\n    workflowStep {\n      workflowStepUid\n      workflowStepName\n      workflowStepType\n      __typename\n    }\n    __typename\n  }\n  __typename\n}\n\nfragment JobSubmittedTaskFragment on JobSubmittedTask {\n  targetLocaleId\n  targetLocaleDescription\n  wordCount\n  weightedWordCount\n  __typename\n}\n\nfragment JobsByPresetCountFragment on JobsByPresetCount {\n  ALL\n  ACTIVE\n  LATE\n  DUE_SOON\n  AT_RISK\n  CREATED_BY_ME\n  RECENTLY_CREATED\n  HIGH_PRIORITY\n  OPEN_ISSUES\n  REQUIRE_ASSIGNMENT\n  AVAILABLE_TO_APPROVE\n  AVAILABLE_TO_ACCEPT\n  CURRENT_WORK\n  COMPLETED\n  UPCOMING\n  SUBMITTED\n  DECLINED\n  __typename\n}\n\nfragment WorkNotInJobFragment on ContentNotInJob {\n  id\n  projectId\n  projectName\n  accountUid\n  accountName\n  issues {\n    sourceIssuesCount\n    translationIssuesCount\n    __typename\n  }\n  translatorTasks {\n    targetLocaleId\n    targetLocaleDescription\n    originalLocaleId\n    workflowStep {\n      workflowStepName\n      workflowStepUid\n      workflowStepType\n      __typename\n    }\n    wordCount\n    stringCount\n    __typename\n  }\n  __typename\n}\n',
+}
+
+response = requests.post('https://dashboard.smartling.com/p/graphql-api/v1', cookies=cookies, headers=headers, json=json_data)
+*****search respond
+
+{"data":{"jobsList":{"jobs":[{"completedDate":null,"createdBy":null,"createdDate":null,"dueDate":null,"id":"6pbquwbmvg6v","issues":{"sourceIssuesCount":0,"translationIssuesCount":0,"__typename":"JobIssueCounts"},"jobActions":null,"jobName":"product/222283F114003_v2022-07-04T17:11:17.267Z","description":"Translation for product 222283F114003","jobNumber":null,"jobStatus":null,"priority":null,"progress":null,"accountName":"SSENSE","accountUid":"a7783a23","sourceLocaleId":"en","sourceLocaleDescription":"English [en]","agencyUid":null,"projectId":"7ec16b23e","projectName":"SSENSE // C&L Translation [KO, JP, ZH, FR]","projectType":"APPLICATION_RESOURCES","qcs":null,"referenceNumber":"product/222283F114003","riskFactor":null,"summaryReport":null,"targetLocaleIds":[],"translationJobUid":"6pbquwbmvg6v","aggregatedPerLocale":null,"aggregatedPerWorkflowStep":null,"aggregatedPerWorkflow":null,"authorizedBy":{"firstName":"Smartling","lastName":"API","userUid":"e5f063abe706","authorizedDate":null,"__typename":"AuthorizedBy"},"translatorTasks":[{"claiming":{"isClaimable":true,"isUnclaimable":false,"claimableWordCount":44,"__typename":"JobTranslatorTaskClaiming"},"dueDate":null,"gracefulWindow":null,"isActionable":null,"isContentUpdated":true,"isDeclined":false,"issues":{"issuesCount":0,"__typename":"JobTranslatorTaskIssues"},"offlineWorkEnabled":true,"originalLocaleId":"en","precedingWorkflowStep":null,"stringCount":2,"targetLocaleId":"zh-CN","targetLocaleDescription":"Chinese (China-Simplified) [zh-CN]","wordCount":44,"translatedWordCount":0,"workflowStep":{"workflowStepName":"Translation","workflowStepType":"TRANSLATION","workflowStepUid":"461ee2e002b5","__typename":"JobTranslatorTaskWorkflowStep"},"upcomingTask":null,"__typename":"JobTranslatorTask"}],"submittedTasks":[],"__typename":"Job"}],"jobsCountByPreset":{"ALL":3149,"ACTIVE":null,"LATE":null,"DUE_SOON":null,"AT_RISK":null,"CREATED_BY_ME":null,"RECENTLY_CREATED":null,"HIGH_PRIORITY":null,"OPEN_ISSUES":null,"REQUIRE_ASSIGNMENT":null,"AVAILABLE_TO_APPROVE":null,"AVAILABLE_TO_ACCEPT":919,"CURRENT_WORK":0,"COMPLETED":null,"UPCOMING":0,"SUBMITTED":2231,"DECLINED":0,"__typename":"JobsByPresetCount"},"workNotInJob":[],"__typename":"JobsList"}}}
+
+****create
+
+json_data = {
+    'localeId': 'zh-CN',
+    'workflowStepUid': '461ee2e002b5',
+    'translationJobUid': '6pbquwbmvg6v',
+    'targetTaskWords': 2000,
+}
+
+response = requests.post('https://dashboard.smartling.com/p/content-assignments-api/v2/projects/7ec16b23e/claiming/tasks/create', cookies=cookies, headers=headers, json=json_data)
+
+****create_respond
+
+{"response":{"code":"SUCCESS","data":{"tasks":[{"groupName":"product/222283F114003_v2022-07-04T17:11:40.758Z","wordCount":4,"stringCount":1,"taskUid":"54645c752add"},{"groupName":"product/222283F114003_v2022-07-04T17:16:59.219Z","wordCount":40,"stringCount":1,"taskUid":"09f5c3f060ae"}]}}}
+
+****accept
+json_data = {
+    'operationName': 'AcceptTask',
+    'variables': {
+        'userUid': '3c77d8715c02',
+        'projectUid': '7ec16b23e',
+        'jobUid': '6pbquwbmvg6v',
+        'workflowStepUid': '461ee2e002b5',
+        'localeId': 'zh-CN',
+        'assignmentTaskUids': [
+            '54645c752add',
+            '09f5c3f060ae',
+        ],
+    },
+    'query': 'mutation AcceptTask($userUid: String!, $projectUid: String!, $jobUid: String!, $workflowStepUid: String!, $localeId: String!, $assignmentTaskUids: [String!]!) {\n  acceptTasks(\n    userUid: $userUid\n    projectUid: $projectUid\n    jobUid: $jobUid\n    workflowStepUid: $workflowStepUid\n    targetLocaleId: $localeId\n    assignmentTaskUids: $assignmentTaskUids\n  )\n}\n',
+}
+
+response = requests.post('https://dashboard.smartling.com/p/graphql-api/v1', cookies=cookies, headers=headers, json=json_data)
+
+
+****accept_respond
+{"data":{"acceptTasks":true}}
+
+****login_respond
+<!DOCTYPE html><html><head><title>Smartling Dashboard | Jobs Dashboard</title><script type="text/javascript" src="/app-api/errors/b4a7f7cdfdf149f0bc7e29dd90174376/rollbar.js" async></script><script type="text/javascript" src="/app-api/survey/delighted.js" async></script><script src="https://use.typekit.net/whr7sln.js"></script><script src="/app/i18n/i18next/i18next.js" type="text/javascript"></script><script type="text/javascript">try{Typekit.load({ async: true });}catch(e){}</script><link rel="shortcut icon" href="/favicon-v2.ico"><link rel="stylesheet" href="https://dashboard-cdn.smartling.com/account-jobs/2119e66cb30d4e941c3d466f68d68c381808b4cd/dist/main.css"></head><body><div class="app-body" id="mainClientLayout" data-ld-client-id="56fda98586d7fb06d7001600" data-ld-enabled data-csrf="Rt1sA61c-tvrdlJuDBvJ5QNhxmGRi4OIkem8" data-user-impersonated="false" data-user-uid="3c77d8715c02" data-user-email="yutian.lan@ssense.com" data-user-given-name="Lan" data-user-family-name="Yutian" data-page-type="general" data-environment="production" data-logout-url="/app/logout" data-language-groups-enabled></div><script src="https://dashboard-cdn.smartling.com/web-components/193f37c733dd02befef9a784815a6cea6b2d04d7/dist/babel-polyfill.js" crossorigin="anonymous"></script><script src="https://dashboard-cdn.smartling.com/web-components/193f37c733dd02befef9a784815a6cea6b2d04d7/dist/webcomponents-lite.js" crossorigin="anonymous"></script><script src="https://dashboard-cdn.smartling.com/web-components/193f37c733dd02befef9a784815a6cea6b2d04d7/dist/main.js" crossorigin="anonymous"></script><script src="https://dashboard-cdn.smartling.com/polymer-popup-v2/3a716735c3baf1fa810fc8f2536a315a21460bd2/dist/main.js" crossorigin="anonymous"></script><script src="https://dashboard-cdn.smartling.com/request-translation/2119e66cb30d4e941c3d466f68d68c381808b4cd/dist/main.js" crossorigin="anonymous"></script><script src="https://dashboard-cdn.smartling.com/attachments/47ebf6c3f5acbbb704d01f37f59a11489b7a7288/dist/component.js" crossorigin="anonymous"></script><script src="https://dashboard-cdn.smartling.com/context-upload/7a4e5a93882d175eb8d70f4b3e9c2e4c89957544/dist/component.js" crossorigin="anonymous"></script><script src="https://dashboard-cdn.smartling.com/account-jobs/2119e66cb30d4e941c3d466f68d68c381808b4cd/dist/i18n/en-US.js" crossorigin="anonymous"></script><script src="https://dashboard-cdn.smartling.com/account-jobs/2119e66cb30d4e941c3d466f68d68c381808b4cd/dist/main.js" crossorigin="anonymous"></script><script type="text/javascript" src="/app-api/google/gtm.js" async></script></body></html>
+
+***remove_respond
+{"response":{"code":"SUCCESS","messages":[],"data":{"elementsCount":2,"wordsCount":null,"paymentAmount":null,"localePaymentInfoDTOCollection":null,"maximumExceeded":null}}}
+
+***remove
+data = {
+    'locale': 'zh-CN',
+    'workflowStepIds': '860718',
+    'projectId': '7ec16b23e',
+    'translationJobUids': '01yj974tj3wz',
+    'claiming': 'true',
+}
+
+response = requests.post('https://dashboard.smartling.com/pwa/api/translations/assignments/unassign', cookies=cookies, headers=headers, data=data)
+
+
+
+
